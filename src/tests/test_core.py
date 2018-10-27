@@ -4,7 +4,7 @@ from core import Point, Station, find_most_suitable_station, \
 
 
 def test_stations_from_json():
-    assert stations_from_json("[[[0, 0], 10]]") == [Station(Point(0, 0), 10)]
+    assert stations_from_json("[[0, 0, 10]]") == [Station(Point(0, 0), 10)]
 
 
 def test_point_from_json():
