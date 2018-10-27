@@ -23,7 +23,7 @@ Stations = List[Station]
 
 
 def stations_from_json(stations: str) -> List[Station]:
-    return [Station(Point(*station[0]), station[1])
+    return [Station(Point(station[0], station[1]), station[2])
             for station in json.loads(stations)]
 
 
