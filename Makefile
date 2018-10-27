@@ -6,7 +6,7 @@ install:
 	$(VENV_PATH)/bin/pip install mypy
 
 test: check
-	$(VENV_PATH)/bin/py.test src/*
+	PYTHONPATH=src/ $(VENV_PATH)/bin/py.test src/tests/*
 
 check:
 	$(VENV_PATH)/bin/mypy --strict src/.
