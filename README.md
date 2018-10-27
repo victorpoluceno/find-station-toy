@@ -51,3 +51,7 @@ venv/bin/mypy --strict src/.
 PYTHONPATH=src venv/bin/python src/main.py --json_stations '[[0, 0, 10], [20, 20, 5], [10, 0, 12]]' --json_point '[18, 18]'
 Best link station for point 18,18 is 20,20 with power 4.72
 ```
+
+## Linting and style
+
+There is a .editorconfig file available. You should use that with your editor of choice.
