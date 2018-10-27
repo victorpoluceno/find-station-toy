@@ -1,3 +1,4 @@
+import json
 import math
 from typing import Tuple, List, Iterable, Optional, NamedTuple
 
@@ -19,6 +20,15 @@ class Station(NamedTuple):
 
 
 Stations = List[Station]
+
+
+def stations_from_json(stations: str) -> List[Station]:
+    return [Station(Point(*station[0]), station[1])
+            for station in json.loads(stations)]
+
+
+def point_from_json(point: str) -> Point:
+    return Point(*json.loads(point))
 
 
 def find_most_suitable_station(stations: Stations, point: Point) \

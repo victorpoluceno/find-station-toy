@@ -1,5 +1,14 @@
 from core import Point, Station, find_most_suitable_station, \
-    distance_to_station, station_power, enrich_stations_with_power
+    distance_to_station, station_power, enrich_stations_with_power, \
+    stations_from_json, point_from_json
+
+
+def test_stations_from_json():
+    assert stations_from_json("[[[0, 0], 10]]") == [Station(Point(0, 0), 10)]
+
+
+def test_point_from_json():
+    assert point_from_json('[0, 0]') == Point(0, 0)
 
 
 def test_find_most_suitable_station() -> None:

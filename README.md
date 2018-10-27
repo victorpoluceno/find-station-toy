@@ -25,3 +25,9 @@ Type annotations are used by default. You can type check the code base by runnin
 	make check
 
 Note: the check is also executed before running the test suite.
+
+## Running
+
+You can easily run the application. The list of stations and the point are required arguments, encoded as JSON:
+
+	make run JSON_STATIONS='[[[0, 0], 10]]' JSON_POINT='[0, 0]'
