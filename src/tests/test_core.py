@@ -12,14 +12,23 @@ def test_point_from_json():
 
 
 def test_find_most_suitable_station() -> None:
-    stations = [Station(Point(0, 0), 10)]
-    point = Point(0, 0)
-    assert find_most_suitable_station(stations, point) == Station(
+    stations = [Station(Point(0, 0), 10),
+                Station(Point(20, 20), 5),
+                Station(Point(10, 0), 12)]
+    assert find_most_suitable_station(stations, Point(0, 0)) == Station(
         Point(0, 0), 10, 100.0)
 
-    stations = [Station(Point(0, 0), 10)]
-    point = Point(100, 100)
-    assert find_most_suitable_station(stations, point) is None
+    assert find_most_suitable_station(stations, Point(100, 100)) is None
+
+    station = find_most_suitable_station(stations, Point(15, 10))
+    assert station.point == Point(x=10, y=0)
+    assert station.reach == 12
+    assert round(station.power, 2) == 0.67
+
+    station = find_most_suitable_station(stations, Point(18, 18))
+    assert station.point == Point(x=20, y=20)
+    assert station.reach == 5
+    assert round(station.power, 2) == 4.72
 
 
 def test_distance_to_station() -> None:
