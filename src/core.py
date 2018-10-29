@@ -31,15 +31,6 @@ class StationPower(NamedTuple):
 Stations = List[Station]
 
 
-def stations_from_json(stations: str) -> List[Station]:
-    return [Station(Point(station[0], station[1]), station[2])
-            for station in json.loads(stations)]
-
-
-def device_from_json(point: str) -> Device:
-    return Device(Point(*json.loads(point)))
-
-
 def find_most_suitable_station(stations: Stations, device: Device) \
         -> Optional[StationPower]:
     def compare(best_so_far: StationPower, candidate: StationPower) \

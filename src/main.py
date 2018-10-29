@@ -1,7 +1,18 @@
-from core import find_most_suitable_station, \
-    stations_from_json, device_from_json
+import json
+from typing import List
 
 import click
+
+from core import Station, Point, Device, find_most_suitable_station
+
+
+def stations_from_json(stations: str) -> List[Station]:
+    return [Station(Point(station[0], station[1]), station[2])
+            for station in json.loads(stations)]
+
+
+def device_from_json(point: str) -> Device:
+    return Device(Point(*json.loads(point)))
 
 
 @click.command()
