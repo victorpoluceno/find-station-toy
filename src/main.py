@@ -1,5 +1,5 @@
 from core import find_most_suitable_station, \
-    stations_from_json, point_from_json
+    stations_from_json, device_from_json
 
 import click
 
@@ -12,17 +12,17 @@ import click
     '--json_point', help='Device point to search for in JSON, e.g: [0, 1]',
     required=True)
 def main(json_stations: str, json_point: str) -> None:
-    stations, point = stations_from_json(json_stations), \
-        point_from_json(json_point)
-    station = find_most_suitable_station(stations, point)
-    if station is None:
+    stations, device = stations_from_json(json_stations), \
+        device_from_json(json_point)
+    station_power = find_most_suitable_station(stations, device)
+    if station_power is None:
         click.echo("No link station within reach for point %d,%d" %
-                   (point.x, point.y))
+                   (device.point.x, device.point.y))
     else:
         click.echo(
             "Best link station for point %d,%d is %d,%d with power %0.2f" %
-            (point.x, point.y, station.point.x, station.point.y,
-             station.power))
+            (device.point.x, device.point.y, station_power.station.point.x,
+             station_power.station.point.y, station_power.power))
 
 
 if __name__ == '__main__':

@@ -1,5 +1,6 @@
 import json
 import math
+import functools
 from typing import Tuple, List, Iterable, Optional, NamedTuple
 
 
@@ -13,10 +14,18 @@ class Point(NamedTuple):
     y: int
 
 
+class Device(NamedTuple):
+    point: Point
+
+
 class Station(NamedTuple):
     point: Point
     reach: float
-    power: float = 0.0
+
+
+class StationPower(NamedTuple):
+    station: Station
+    power: Power = 0
 
 
 Stations = List[Station]
@@ -27,39 +36,33 @@ def stations_from_json(stations: str) -> List[Station]:
             for station in json.loads(stations)]
 
 
-def point_from_json(point: str) -> Point:
-    return Point(*json.loads(point))
+def device_from_json(point: str) -> Device:
+    return Device(Point(*json.loads(point)))
 
 
-def find_most_suitable_station(stations: Stations, point: Point) \
-        -> Optional[Station]:
-    suitable_station = None
-    for station in enrich_stations_with_power(stations, point):
-        if station.power == 0.0:
-            continue
+def find_most_suitable_station(stations: Stations, device: Device) \
+        -> Optional[StationPower]:
+    def compare(best_so_far: StationPower, candidate: StationPower) \
+            -> StationPower:
+        return candidate if candidate.power > best_so_far.power \
+            else best_so_far
 
-        if suitable_station is None:
-            suitable_station = station
-        else:
-            if station.power > suitable_station.power:
-                suitable_station = station
-
-    return suitable_station
+    station = functools.reduce(compare, enrich_stations_with_power(
+        stations, device), StationPower(Station(Point(0, 0), 0)))
+    return station if station.power > 0 else None
 
 
-def enrich_stations_with_power(stations: Stations, point: Point) \
-        -> Iterable[Station]:
-    for station in stations:
-        power = station_power(
-            station.reach, distance_to_station(station.point, point))
-        yield Station(station.point, station.reach, power)
+def enrich_stations_with_power(stations: Stations, device: Device) \
+        -> Iterable[StationPower]:
+    return map(lambda station: StationPower(
+               station, station_power_to_device(station.reach,
+                                                distance_to_station(
+                                                    station.point,
+                                                    device.point))), stations)
 
 
-def station_power(reach: Reach, distance: Distance) -> Power:
-    if distance > reach:
-        return 0.0
-
-    return (reach - distance)**2
+def station_power_to_device(reach: Reach, distance: Distance) -> Power:
+    return 0.0 if distance > reach else (reach - distance)**2
 
 
 def distance_to_station(station: Point, device: Point) -> Distance:
