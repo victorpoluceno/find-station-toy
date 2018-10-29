@@ -1,6 +1,6 @@
 # Find Station
 
-Service implementation of find the most suitable link station to a device.
+Simple tool implementation of find the most suitable link station to a device.
 
 ## Requirements
 
@@ -26,7 +26,7 @@ Type annotations are used by default. You can type check the code base by runnin
 
 Note: the check is also executed before running the test suite.
 
-## Running
+## Usage
 
 You can easily run the application. The list of stations and the point are required arguments, encoded as JSON:
 
@@ -51,6 +51,12 @@ venv/bin/mypy --strict src/.
 PYTHONPATH=src venv/bin/python src/main.py --json_stations '[[0, 0, 10], [20, 20, 5], [10, 0, 12]]' --json_point '[18, 18]'
 Best link station for point 18,18 is 20,20 with power 4.72
 ```
+
+## Architecture
+
+This tool is composed of two main components, the main (CLI) and the core. Main is responsible for all the input and output of the tool. The core contains all the business logic implemented in a function style.
+
+As all side effects are constrained to the main, the core is easy to test and modify. The functional nature of the core and separation of concerns allow an easy implementation of more interfaces, like a REST API for example.
 
 ## Linting and style
 
