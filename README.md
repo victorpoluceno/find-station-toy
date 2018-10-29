@@ -60,4 +60,4 @@ As all side effects are constrained to the main, the core is easy to test and mo
 
 ## Linting and style
 
-There is a .editorconfig file available. You should use that with your editor of choice.
+There is a .editorconfig file available and .flake8. You should use EditorConfig and flake8 in your editor of choice.
